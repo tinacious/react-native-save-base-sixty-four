@@ -1,0 +1,6 @@
+rootProject.name = 'SaveBase64ImageExample'
+apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
+include ':app'
+
+include ':reactnativesavebase64image'
+project(':reactnativesavebase64image').projectDir = new File(rootProject.projectDir, '../../android')
