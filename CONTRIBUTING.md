@@ -53,6 +53,19 @@ To edit the Objective-C files, open `example/ios/SaveBase64ImageExample.xcworksp
 
 To edit the Kotlin files, open `example/android` in Android studio and find the source files at `reactnativesavebase64image` under `Android`.
 
+After making changes in Android, run:
+
+```sh
+npx react-native run-android
+```
+
+And iOS:
+
+```sh
+npx react-native run-ios
+```
+
+
 ### Commit message convention
 
 We follow the [conventional commits specification](https://www.conventionalcommits.org/en) for our commit messages:
