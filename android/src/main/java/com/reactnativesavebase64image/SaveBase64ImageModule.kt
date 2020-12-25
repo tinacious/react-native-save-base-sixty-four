@@ -4,24 +4,24 @@ import android.util.Log
 import com.facebook.common.logging.FLog
 import com.facebook.react.bridge.*
 
+
 class SaveBase64ImageModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
+
+  private val mContext: ReactApplicationContext = reactContext
 
   override fun getName(): String {
     return TAG
   }
 
-  // Example method
-  // See https://reactnative.dev/docs/native-modules-android
-  @ReactMethod
-  fun multiply(a: Int, b: Int, promise: Promise) {
-    promise.resolve(a * b)
-  }
-
   @ReactMethod
   fun saveToGallery(base64ImageString: String, options: ReadableMap, promise: Promise) {
-    FLog.d(TAG, "Save to gallery: $base64ImageString")
-    Log.d(TAG, "Save to gallery: $base64ImageString")
-//    Log.d(TAG, base64ImageString)
+    try {
+      val bitmap = Utils.getBitmapForBase64String(base64ImageString)
+      val success = Utils.saveMediaToStorage(bitmap, options, mContext)
+      promise.resolve(success)
+    } catch (e: Error) {
+      promise.reject(e)
+    }
   }
 
   @ReactMethod

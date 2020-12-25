@@ -1,9 +1,12 @@
 import { NativeModules } from 'react-native';
 
-type SaveBase64ImageOptionsType = {};
+type SaveBase64ImageOptionsType = {
+  mimeType?: 'image/png' | 'image/jpg';
+  directory?: 'DIRECTORY_PICTURES' | 'DIRECTORY_DOWNLOADS';
+  quality?: number;
+};
 
 type SaveBase64ImageType = {
-  // multiply(a: number, b: number): Promise<number>;
   saveToGallery(
     base64ImageString: string,
     options?: SaveBase64ImageOptionsType
@@ -17,17 +20,29 @@ type SaveBase64ImageType = {
 
 const { SaveBase64Image } = NativeModules;
 
-const withDefaultOptions: SaveBase64ImageType = {
+const defaultOptions: SaveBase64ImageOptionsType = {
+  mimeType: 'image/png',
+  directory: 'DIRECTORY_PICTURES',
+  quality: 100,
+};
+const SaveBase64ImageWithDefaultOptions: SaveBase64ImageType = {
   saveToGallery: (
     base64ImageString: string,
     options: SaveBase64ImageOptionsType = {}
-  ) => SaveBase64Image.saveToGallery(base64ImageString, options),
+  ) =>
+    SaveBase64Image.saveToGallery(base64ImageString, {
+      ...defaultOptions,
+      options,
+    }),
 
   saveToShareSheet: (
     base64ImageString: string,
     options: SaveBase64ImageOptionsType = {}
-  ) => SaveBase64Image.saveToShareSheet(base64ImageString, options),
+  ) =>
+    SaveBase64Image.saveToShareSheet(base64ImageString, {
+      ...defaultOptions,
+      options,
+    }),
 };
 
-export default withDefaultOptions as SaveBase64ImageType;
-// export default SaveBase64Image as SaveBase64ImageType;
+export default SaveBase64ImageWithDefaultOptions as SaveBase64ImageType;
