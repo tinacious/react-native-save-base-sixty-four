@@ -7,7 +7,6 @@ import {
   Image,
   TouchableHighlight,
   Vibration,
-  Button,
   Alert,
   TextInput,
   Platform,
@@ -17,9 +16,6 @@ import { dachshund, pomeranian, frenchie } from './images';
 import { hasStoragePermissions } from './permissions';
 
 export default function App() {
-  const [directory, setDirectory] = React.useState<
-    'DIRECTORY_DOWNLOADS' | 'DIRECTORY_PICTURES'
-  >('DIRECTORY_PICTURES');
   const [hasPermissions, setHasPermissions] = React.useState<boolean>(false);
   const [customShareText, setCustomShareText] = React.useState<string>(
     'Share puppy'
@@ -68,14 +64,11 @@ export default function App() {
 
       SaveBase64Image.save(image, {
         fileName,
-        directory,
       }).then((success) => {
         if (success) {
           Alert.alert(
             'Success 😄',
-            `The image was successfully saved to your ${
-              directory === 'DIRECTORY_DOWNLOADS' ? 'Downloads' : 'Pictures'
-            }`,
+            'The image was successfully saved to your gallery',
             undefined,
             { cancelable: true }
           );
@@ -85,7 +78,7 @@ export default function App() {
       });
       Vibration.vibrate(200);
     },
-    [hasPermissions, showFailure, showPermissionsRequired, directory]
+    [hasPermissions, showFailure, showPermissionsRequired]
   );
 
   React.useEffect(function askForPermissionsOnMount() {
@@ -98,8 +91,6 @@ export default function App() {
     });
   }, []);
 
-  const activeButtonColour = '#ff365f';
-
   return (
     <View style={styles.container}>
       <View>
@@ -111,35 +102,9 @@ export default function App() {
           onChangeText={setCustomShareText}
         />
       </View>
-      <View style={styles.buttonLayout}>
-        <View style={styles.button}>
-          <Button
-            title="Downloads"
-            color={
-              directory === 'DIRECTORY_DOWNLOADS' ? activeButtonColour : '#000'
-            }
-            onPress={() => setDirectory('DIRECTORY_DOWNLOADS')}
-          />
-        </View>
-        <View style={styles.button}>
-          <Button
-            title="Pictures"
-            color={
-              directory === 'DIRECTORY_PICTURES' ? activeButtonColour : '#000'
-            }
-            onPress={() => setDirectory('DIRECTORY_PICTURES')}
-          />
-        </View>
-      </View>
 
       <Text style={styles.text}>Tap to see the share sheet.</Text>
-      <Text style={styles.text}>
-        Long press to save to your{' '}
-        <Text style={styles.strong}>
-          {directory === 'DIRECTORY_DOWNLOADS' ? 'Downloads' : 'Pictures'}
-        </Text>{' '}
-        directory
-      </Text>
+      <Text style={styles.text}>Long press to save to your Pictures</Text>
 
       <View style={styles.imageWrapper}>
         <TouchableHighlight

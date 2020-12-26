@@ -79,7 +79,6 @@ The options below are used in the Android module:
 ```ts
 interface SaveBase64ImageOptions {
   mimeType?: 'image/png' | 'image/jpg';
-  directory?: 'DIRECTORY_PICTURES' | 'DIRECTORY_DOWNLOADS' | 'DIRECTORY_DCIM';
   quality?: number;
   fileName?: string;
   shareText?: string;
@@ -87,7 +86,6 @@ interface SaveBase64ImageOptions {
 ```
 
 - **`mimeType`** `(default: 'image/png')`: Android configuration of mime type for bitmap compression and for the share intent. Currently only supporting `'image/png' | 'image/jpg'`
-- **`directory`** `(default: 'DIRECTORY_PICTURES')`: The specified save directory for Android. Currently supporting only `'DIRECTORY_PICTURES' | 'DIRECTORY_DOWNLOADS' | 'DIRECTORY_DCIM'`
 - **`quality`** `(default: 100)`: Bitmap compression quality on Android
 - **`fileName`** `(default: <generated-timestamp>`): The filename for Android. This will be visible in the Photos app when saving and as the file name when sharing.
 - **`shareText`** `(default: 'Share image')`: The text that will show up on the Android share sheet.

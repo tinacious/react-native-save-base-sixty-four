@@ -34,7 +34,6 @@ object Utils {
     val mimeType = options.getString("mimeType") ?: ""
     val fileName = options.getString("fileName") ?: "${System.currentTimeMillis()}"
     val quality = options.getInt("quality")
-    val directory = getDirectory(options.getString("directory"))
     val fileNameWithExtension = "$fileName.${getFileExtensionForMimeType(mimeType)}"
 
     var outputStream: OutputStream? = null
@@ -45,7 +44,7 @@ object Utils {
         val contentValues = ContentValues().apply {
           put(MediaStore.MediaColumns.DISPLAY_NAME, fileNameWithExtension)
           put(MediaStore.MediaColumns.MIME_TYPE, mimeType)
-          put(MediaStore.MediaColumns.RELATIVE_PATH, directory)
+          put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
         }
 
         val imageUri: Uri? = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
@@ -53,7 +52,7 @@ object Utils {
       }
     } else {
       // Deprecated API for Android < Q
-      val imagesDir = Environment.getExternalStoragePublicDirectory(directory)
+      val imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
       val image = File(imagesDir, fileNameWithExtension)
       outputStream = FileOutputStream(image)
     }
@@ -130,18 +129,6 @@ object Utils {
       "image/jpg" -> Bitmap.CompressFormat.JPEG
       "image/png" -> Bitmap.CompressFormat.PNG
       else -> Bitmap.CompressFormat.PNG
-    }
-  }
-
-  /**
-   * Save directories supported. Defaults to Pictures.
-   */
-  private fun getDirectory(directory: String?): String {
-    return when (directory) {
-      "DIRECTORY_DCIM" -> Environment.DIRECTORY_DCIM
-      "DIRECTORY_PICTURES" -> Environment.DIRECTORY_PICTURES
-      "DIRECTORY_DOWNLOADS" -> Environment.DIRECTORY_DOWNLOADS
-      else -> Environment.DIRECTORY_PICTURES
     }
   }
 }
