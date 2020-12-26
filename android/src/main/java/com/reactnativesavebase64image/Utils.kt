@@ -80,7 +80,7 @@ object Utils {
     val shareIntent = Intent(Intent.ACTION_SEND)
     shareIntent.type = mimeType
 
-    var outputStream: OutputStream? = null
+    var outputStream: OutputStream?
     var imageUri: Uri? = null
 
     context.contentResolver?.also { resolver ->

@@ -6,4 +6,8 @@ RCT_EXTERN_METHOD(save:(NSString)base64ImageString withOptions:(NSDictionary)opt
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject)
 
+RCT_EXTERN_METHOD(share:(NSString)base64ImageString withOptions:(NSDictionary)options
+                 withResolver:(RCTPromiseResolveBlock)resolve
+                 withRejecter:(RCTPromiseRejectBlock)reject)
+
 @end

@@ -53,7 +53,10 @@ export default function App() {
       Vibration.vibrate(100);
 
       try {
-        SaveBase64Image.share(image, { fileName, shareText: customShareText });
+        SaveBase64Image.share(image, {
+          fileName,
+          shareText: customShareText,
+        });
       } catch (e) {
         showFailure();
       }
