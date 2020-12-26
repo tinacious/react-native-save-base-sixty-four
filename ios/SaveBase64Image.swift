@@ -1,19 +1,24 @@
 @objc(SaveBase64Image)
 class SaveBase64Image: NSObject {
     
+    var resolver: RCTPromiseResolveBlock?
+    var rejecter: RCTPromiseRejectBlock?
+    
     @objc(save:withOptions:withResolver:withRejecter:)
     func save(
         base64ImageString: String,
         options: Dictionary<String, Any>,
-        resolve: RCTPromiseResolveBlock,
-        reject: RCTPromiseRejectBlock
+        resolve:  @escaping RCTPromiseResolveBlock,
+        reject:  @escaping RCTPromiseRejectBlock
     ) -> Void {
         guard let image = decodeBase64ToImage(encodedData: base64ImageString) else {
             return resolve(false)
         }
         
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-        resolve(true)
+        self.resolver = resolve
+        self.rejecter = reject
+        
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(self.image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
     
     @objc(share:withOptions:withResolver:withRejecter:)
@@ -21,7 +26,7 @@ class SaveBase64Image: NSObject {
         base64ImageString: String,
         options: Dictionary<String, Any>,
         resolve: @escaping RCTPromiseResolveBlock,
-        reject: RCTPromiseRejectBlock
+        reject: @escaping RCTPromiseRejectBlock
     ) -> Void {
         guard let image = decodeBase64ToImage(encodedData: base64ImageString) else {
             return resolve(false)
@@ -38,6 +43,19 @@ class SaveBase64Image: NSObject {
             }
         }
     }
+    
+    @objc(image:didFinishSavingWithError:contextInfo:)
+    func image(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: UnsafeRawPointer) {
+        guard error == nil else {
+            // Error saving image
+            resolver?(false)
+            return
+        }
+
+        // Image saved successfully
+        resolver?(true)
+    }
+    
 }
 
 func decodeBase64ToImage(encodedData: String) -> UIImage? {
@@ -46,3 +64,5 @@ func decodeBase64ToImage(encodedData: String) -> UIImage? {
     }
     return UIImage(data: data)
 }
+
+
