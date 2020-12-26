@@ -72,7 +72,6 @@ object Utils {
     val mimeType = options.getString("mimeType") ?: ""
     val fileName = options.getString("fileName") ?: "${System.currentTimeMillis()}"
     val quality = options.getInt("quality")
-    val shareText = options.getString("shareText") ?: ""
 
     val fileNameWithExtension = "$fileName.${getFileExtensionForMimeType(mimeType)}"
 
@@ -102,7 +101,7 @@ object Utils {
     shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri)
     shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     context.currentActivity?.also {
-      it.startActivity(Intent.createChooser(shareIntent, shareText))
+      it.startActivity(Intent.createChooser(shareIntent, null))
       return true
     }
 

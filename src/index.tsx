@@ -4,7 +4,6 @@ interface SaveBase64ImageOptions {
   mimeType?: 'image/png' | 'image/jpg';
   quality?: number;
   fileName?: string;
-  shareText?: string;
 }
 
 interface SaveBase64ImageInterface {
@@ -24,7 +23,6 @@ const { SaveBase64Image } = NativeModules;
 const defaultOptions: SaveBase64ImageOptions = {
   mimeType: 'image/png',
   quality: 100,
-  shareText: 'Share image',
 };
 const SaveBase64ImageWithDefaultOptions: SaveBase64ImageInterface = {
   save: (base64ImageString: string, options: SaveBase64ImageOptions = {}) =>

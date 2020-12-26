@@ -81,14 +81,12 @@ interface SaveBase64ImageOptions {
   mimeType?: 'image/png' | 'image/jpg';
   quality?: number;
   fileName?: string;
-  shareText?: string;
 }
 ```
 
 - **`mimeType`** `(default: 'image/png')`: Android configuration of mime type for bitmap compression and for the share intent. Currently only supporting `'image/png' | 'image/jpg'`
 - **`quality`** `(default: 100)`: Bitmap compression quality on Android
 - **`fileName`** `(default: <generated-timestamp>`): The filename for Android. This will be visible in the Photos app when saving and as the file name when sharing.
-- **`shareText`** `(default: 'Share image')`: The text that will show up on the Android share sheet.
 
 
 ## Contributing

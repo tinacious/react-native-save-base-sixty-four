@@ -8,7 +8,6 @@ import {
   TouchableHighlight,
   Vibration,
   Alert,
-  TextInput,
   Platform,
 } from 'react-native';
 import SaveBase64Image from 'react-native-save-base64-image';
@@ -17,9 +16,6 @@ import { hasStoragePermissions } from './permissions';
 
 export default function App() {
   const [hasPermissions, setHasPermissions] = React.useState<boolean>(false);
-  const [customShareText, setCustomShareText] = React.useState<string>(
-    'Share puppy'
-  );
 
   const showPermissionsRequired = React.useCallback(() => {
     const title = 'Permissions Required';
@@ -47,13 +43,12 @@ export default function App() {
       try {
         SaveBase64Image.share(image, {
           fileName,
-          shareText: customShareText,
         });
       } catch (e) {
         showFailure();
       }
     },
-    [hasPermissions, showFailure, showPermissionsRequired, customShareText]
+    [hasPermissions, showFailure, showPermissionsRequired]
   );
 
   const handleLongPress = React.useCallback(
@@ -93,16 +88,6 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <View>
-        <Text>Custom share text</Text>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Custom share text"
-          value={customShareText}
-          onChangeText={setCustomShareText}
-        />
-      </View>
-
       <Text style={styles.text}>Tap to see the share sheet.</Text>
       <Text style={styles.text}>Long press to save to your Pictures</Text>
 
@@ -142,28 +127,10 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  textInput: {
-    backgroundColor: '#fff',
-    padding: 8,
-  },
-  buttonLayout: {
-    flexDirection: 'row',
-    padding: 10,
-  },
-  button: {
-    padding: 10,
-    marginTop: 0,
-    marginBottom: 0,
-    marginLeft: 10,
-    marginRight: 10,
-  },
   text: {
     fontSize: 20,
     textAlign: 'center',
     marginBottom: 10,
-  },
-  strong: {
-    fontWeight: '700',
   },
   image: {
     width: 100,
@@ -180,10 +147,5 @@ const styles = StyleSheet.create({
   imageWrapper: {
     marginTop: 10,
     flexDirection: 'row',
-  },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
   },
 });
