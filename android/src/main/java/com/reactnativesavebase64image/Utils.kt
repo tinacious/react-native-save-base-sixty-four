@@ -101,8 +101,13 @@ object Utils {
     }
 
     shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri)
-    context.startActivity(Intent.createChooser(shareIntent, shareText))
-    return true
+    shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    context.currentActivity?.also {
+      it.startActivity(Intent.createChooser(shareIntent, shareText))
+      return true
+    }
+
+    return false
   }
 
 
