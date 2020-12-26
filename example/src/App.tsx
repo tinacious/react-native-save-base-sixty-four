@@ -9,8 +9,8 @@ import {
   Vibration,
   Button,
   Alert,
-  TouchableNativeFeedback,
   TextInput,
+  Platform,
 } from 'react-native';
 import SaveBase64Image from 'react-native-save-base64-image';
 import {
@@ -46,7 +46,7 @@ export default function App() {
 
   const handlePress = React.useCallback(
     (image: string, fileName: string) => () => {
-      if (!hasPermissions) {
+      if (!hasPermissions && Platform.OS === 'android') {
         return showPermissionsRequired();
       }
 
@@ -63,7 +63,7 @@ export default function App() {
 
   const handleLongPress = React.useCallback(
     (image: string, fileName: string) => () => {
-      if (!hasPermissions) {
+      if (!hasPermissions && Platform.OS === 'android') {
         return showPermissionsRequired();
       }
 
@@ -90,6 +90,10 @@ export default function App() {
   );
 
   React.useEffect(function askForPermissionsOnMount() {
+    if (Platform.OS === 'ios') {
+      return;
+    }
+
     hasStoragePermissions().then((result) => {
       setHasPermissions(result);
     });
@@ -134,7 +138,7 @@ export default function App() {
 
       <View style={styles.imageWrapper}>
         {/* Logo 1 - (pink and black text on white) */}
-        <TouchableNativeFeedback
+        <TouchableHighlight
           onPress={handlePress(
             logoPinkBlackOnWhite,
             'white-background-pink-black'
@@ -148,7 +152,7 @@ export default function App() {
             style={styles.image}
             source={{ uri: `data:image/png;base64,${logoPinkBlackOnWhite}` }}
           />
-        </TouchableNativeFeedback>
+        </TouchableHighlight>
 
         {/* Logo 2 (pink and white text on dark grey) */}
         <TouchableHighlight

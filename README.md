@@ -8,6 +8,26 @@ Allows you to save an image in base64 format to the camera roll
 npm install react-native-save-base64-image
 ```
 
+### iOS
+
+Add this to your `Info.plist`:
+
+```xml
+  <key>NSPhotoLibraryAddUsageDescription</key>
+  <string>Save photo to device</string>
+```
+
+### Android
+
+Add this to your `AndroidManifest.xml`:
+
+```xml
+<uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION"/>
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    android:maxSdkVersion="28" />
+```
+
 ## Usage
 
 ```js
