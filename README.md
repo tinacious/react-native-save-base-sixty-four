@@ -1,7 +1,8 @@
 # react-native-save-base64-image
 
-Allows you to save an image in base64 format to the camera roll
+Allows you to save an image in base64 format to the camera roll.
 
+- [About & Similar modules](#about--similar-modules)
 - [Installation](#installation)
   - [iOS](#ios)
   - [Android](#android)
@@ -10,6 +11,16 @@ Allows you to save an image in base64 format to the camera roll
   - [Options](#options)
 - [Contributing](#contributing)
 - [License](#license)
+
+
+## About & Similar modules
+
+This module was developed specifically for working with base64 encoded images. When providing a base64 string, do not provide the header with the mime type.
+
+If you are only looking for share sheet functionality, [react-native-share](https://github.com/react-native-share/react-native-share) works perfectly and is more mature. I would recommend using that.
+
+If you are looking for the ability to save to camera roll, specifically with support for the current version of Android, this module will help you. At the time of writing, the existing solutions do not implement scoped storage for target SDK 30, the current version of Android, but this does.
+
 
 ## Installation
 
