@@ -1,6 +1,7 @@
 package com.reactnativesavebase64image
 
 import android.content.ContentValues
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -8,12 +9,12 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Base64
-import android.util.Log
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.bridge.ReadableMap
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
+
 
 object Utils {
   /**
@@ -28,17 +29,12 @@ object Utils {
    * Saves the provided bitmap to the specified device directory
    * Supports Android 10+ and the legacy storage API
    */
-  fun saveMediaToStorage(bitmap: Bitmap, options: ReadableMap, context: ReactContext): Boolean {
+  fun saveImageToStorage(bitmap: Bitmap, options: ReadableMap, context: ReactContext): Boolean {
     // Options
     val mimeType = options.getString("mimeType") ?: ""
     val fileName = options.getString("fileName") ?: "${System.currentTimeMillis()}"
     val quality = options.getInt("quality")
     val directory = getDirectory(options.getString("directory"))
-
-    val tag = "ImageSave"
-    Log.d(tag, "Mime type: $mimeType")
-    Log.d(tag, "Filename: $fileName")
-
     val fileNameWithExtension = "$fileName.${getFileExtensionForMimeType(mimeType)}"
 
     var outputStream: OutputStream? = null
@@ -57,7 +53,7 @@ object Utils {
       }
     } else {
       // Deprecated API for Android < Q
-      val imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+      val imagesDir = Environment.getExternalStoragePublicDirectory(directory)
       val image = File(imagesDir, fileNameWithExtension)
       outputStream = FileOutputStream(image)
     }
@@ -66,6 +62,46 @@ object Utils {
       bitmap.compress(getBitmapCompressFormatForMimeType(mimeType), quality, it)
     }
 
+    return true
+  }
+
+  /**
+   * Creates a share intent for the provided bitmap
+   */
+  fun startShareIntent(bitmap: Bitmap, options: ReadableMap, context: ReactContext): Boolean {
+    // Options
+    val mimeType = options.getString("mimeType") ?: ""
+    val fileName = options.getString("fileName") ?: "${System.currentTimeMillis()}"
+    val quality = options.getInt("quality")
+    val shareText = options.getString("shareText") ?: ""
+
+    val fileNameWithExtension = "$fileName.${getFileExtensionForMimeType(mimeType)}"
+
+    val shareIntent = Intent(Intent.ACTION_SEND)
+    shareIntent.type = mimeType
+
+    var outputStream: OutputStream? = null
+    var imageUri: Uri? = null
+
+    context.contentResolver?.also { resolver ->
+      val contentValues = ContentValues().apply {
+        put(MediaStore.MediaColumns.DISPLAY_NAME, fileNameWithExtension)
+        put(MediaStore.MediaColumns.MIME_TYPE, mimeType)
+      }
+      imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+      outputStream = imageUri?.let { resolver.openOutputStream(it) }
+
+      outputStream?.use {
+        bitmap.compress(getBitmapCompressFormatForMimeType(mimeType), quality, it)
+      }
+    }
+
+    if (imageUri == null) {
+      return false
+    }
+
+    shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri)
+    context.startActivity(Intent.createChooser(shareIntent, shareText))
     return true
   }
 

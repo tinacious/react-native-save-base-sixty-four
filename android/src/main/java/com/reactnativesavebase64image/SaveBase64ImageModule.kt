@@ -1,7 +1,5 @@
 package com.reactnativesavebase64image
 
-import android.util.Log
-import com.facebook.common.logging.FLog
 import com.facebook.react.bridge.*
 
 
@@ -14,10 +12,11 @@ class SaveBase64ImageModule(reactContext: ReactApplicationContext) : ReactContex
   }
 
   @ReactMethod
-  fun saveToGallery(base64ImageString: String, options: ReadableMap, promise: Promise) {
+  fun save(base64ImageString: String, options: ReadableMap, promise: Promise) {
     try {
       val bitmap = Utils.getBitmapForBase64String(base64ImageString)
-      val success = Utils.saveMediaToStorage(bitmap, options, mContext)
+      val success = Utils.saveImageToStorage(bitmap, options, mContext)
+
       promise.resolve(success)
     } catch (e: Error) {
       promise.reject(e)
@@ -25,9 +24,15 @@ class SaveBase64ImageModule(reactContext: ReactApplicationContext) : ReactContex
   }
 
   @ReactMethod
-  fun saveToShareSheet(base64ImageString: String, options: ReadableMap, promise: Promise) {
-    FLog.d(TAG, "Save to share sheet: $base64ImageString")
-    Log.d(TAG, "Save to share sheet: $base64ImageString")
+  fun share(base64ImageString: String, options: ReadableMap, promise: Promise) {
+    try {
+      val bitmap = Utils.getBitmapForBase64String(base64ImageString)
+      val success = Utils.startShareIntent(bitmap, options, mContext)
+
+      promise.resolve(success)
+    } catch (e: Error) {
+      promise.reject(e)
+    }
   }
 
   companion object {

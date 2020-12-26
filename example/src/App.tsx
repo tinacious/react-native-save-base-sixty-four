@@ -7,6 +7,7 @@ import {
   Image,
   TouchableHighlight,
   Vibration,
+  Button,
 } from 'react-native';
 import SaveBase64Image from 'react-native-save-base64-image';
 import { useAlerts } from './alert-hooks';
@@ -18,34 +19,40 @@ import {
 import { hasStoragePermissions } from './permissions';
 
 export default function App() {
+  const [directory, setDirectory] = React.useState<
+    'DIRECTORY_DOWNLOADS' | 'DIRECTORY_PICTURES'
+  >('DIRECTORY_PICTURES');
   const [hasPermissions, setHasPermissions] = React.useState<boolean>(false);
   const { showSuccess, showFailure, showPermissionsRequired } = useAlerts();
 
-  /*   const handlePress = React.useCallback(
-    (image: string) => () => {
+  const handlePress = React.useCallback(
+    (image: string, fileName: string) => () => {
       if (!hasPermissions) {
         return showPermissionsRequired();
       }
 
       Vibration.vibrate(100);
-      SaveBase64Image.saveToShareSheet(image).then((success) => {
-        if (success) {
-          showSuccess();
-        } else {
-          showFailure();
-        }
-      });
+
+      try {
+        SaveBase64Image.share(image, { fileName, shareText: 'Share Logo' });
+        showSuccess();
+      } catch (e) {
+        showFailure();
+      }
     },
     [hasPermissions, showSuccess, showFailure, showPermissionsRequired]
-  ); */
+  );
 
   const handleLongPress = React.useCallback(
-    (image: string) => () => {
+    (image: string, fileName: string) => () => {
       if (!hasPermissions) {
         return showPermissionsRequired();
       }
 
-      SaveBase64Image.saveToGallery(image).then((success) => {
+      SaveBase64Image.save(image, {
+        fileName,
+        directory,
+      }).then((success) => {
         if (success) {
           showSuccess();
         } else {
@@ -54,7 +61,13 @@ export default function App() {
       });
       Vibration.vibrate(200);
     },
-    [hasPermissions, showSuccess, showFailure, showPermissionsRequired]
+    [
+      hasPermissions,
+      showSuccess,
+      showFailure,
+      showPermissionsRequired,
+      directory,
+    ]
   );
 
   React.useEffect(function askForPermissionsOnMount() {
@@ -65,12 +78,37 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <View style={styles.buttonLayout}>
+        <View style={styles.button}>
+          <Button
+            title="Downloads"
+            color="#00d364"
+            onPress={() => setDirectory('DIRECTORY_DOWNLOADS')}
+          />
+        </View>
+        <View style={styles.button}>
+          <Button
+            title="Pictures"
+            color="#c6f"
+            onPress={() => setDirectory('DIRECTORY_PICTURES')}
+          />
+        </View>
+      </View>
+
       <Text style={styles.text}>
-        Tap to see the share sheet, long press to save to your camera roll
+        Tap to see the share sheet, long press to save to your{' '}
+        {directory === 'DIRECTORY_DOWNLOADS' ? 'Downloads' : 'Pictures'}{' '}
+        directory
       </Text>
       <TouchableHighlight
-        // onPress={handlePress(logoPinkBlackOnWhite)}
-        onLongPress={handleLongPress(logoPinkBlackOnWhite)}
+        onPress={handlePress(
+          logoPinkBlackOnWhite,
+          'white-background-pink-black'
+        )}
+        onLongPress={handleLongPress(
+          logoPinkBlackOnWhite,
+          'white-background-pink-black'
+        )}
       >
         <Image
           style={styles.image}
@@ -79,8 +117,14 @@ export default function App() {
       </TouchableHighlight>
 
       <TouchableHighlight
-        // onPress={handlePress(logoPinkWhiteOnBlack)}
-        onLongPress={handleLongPress(logoPinkWhiteOnBlack)}
+        onPress={handlePress(
+          logoPinkWhiteOnBlack,
+          'black-background-pink-white'
+        )}
+        onLongPress={handleLongPress(
+          logoPinkWhiteOnBlack,
+          'black-background-pink-white'
+        )}
       >
         <Image
           style={styles.image}
@@ -89,8 +133,8 @@ export default function App() {
       </TouchableHighlight>
 
       <TouchableHighlight
-        // onPress={handlePress(logoWhiteOnPink)}
-        onLongPress={handleLongPress(logoWhiteOnPink)}
+        onPress={handlePress(logoWhiteOnPink, 'pink-background-white')}
+        onLongPress={handleLongPress(logoWhiteOnPink, 'pink-background-white')}
       >
         <Image
           style={styles.image}
@@ -102,15 +146,27 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  buttonLayout: {
+    flexDirection: 'row',
+    padding: 20,
+  },
+  button: {
+    padding: 10,
+    marginTop: 0,
+    marginBottom: 0,
+    marginLeft: 10,
+    marginRight: 10,
+  },
   text: {
     fontWeight: '700',
     fontSize: 20,
     textAlign: 'center',
+    marginBottom: 20,
   },
   image: {
-    width: 160,
-    height: 160,
-    margin: 20,
+    width: 140,
+    height: 140,
+    margin: 10,
   },
   container: {
     flex: 1,
