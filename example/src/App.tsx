@@ -13,11 +13,7 @@ import {
   Platform,
 } from 'react-native';
 import SaveBase64Image from 'react-native-save-base64-image';
-import {
-  logoPinkBlackOnWhite,
-  logoPinkWhiteOnBlack,
-  logoWhiteOnPink,
-} from './images';
+import { dachshund, pomeranian, frenchie } from './images';
 import { hasStoragePermissions } from './permissions';
 
 export default function App() {
@@ -26,7 +22,7 @@ export default function App() {
   >('DIRECTORY_PICTURES');
   const [hasPermissions, setHasPermissions] = React.useState<boolean>(false);
   const [customShareText, setCustomShareText] = React.useState<string>(
-    'Share logo'
+    'Share puppy'
   );
 
   const showPermissionsRequired = React.useCallback(() => {
@@ -34,7 +30,7 @@ export default function App() {
     const message =
       'Unable to perform this operation until you accept the permissions';
 
-    Alert.alert(title, message);
+    Alert.alert(title, message, undefined, { cancelable: true });
   }, []);
 
   const showFailure = React.useCallback(() => {
@@ -102,6 +98,8 @@ export default function App() {
     });
   }, []);
 
+  const activeButtonColour = '#ff365f';
+
   return (
     <View style={styles.container}>
       <View>
@@ -117,14 +115,18 @@ export default function App() {
         <View style={styles.button}>
           <Button
             title="Downloads"
-            color={directory === 'DIRECTORY_DOWNLOADS' ? '#f39' : '#000'}
+            color={
+              directory === 'DIRECTORY_DOWNLOADS' ? activeButtonColour : '#000'
+            }
             onPress={() => setDirectory('DIRECTORY_DOWNLOADS')}
           />
         </View>
         <View style={styles.button}>
           <Button
             title="Pictures"
-            color={directory === 'DIRECTORY_PICTURES' ? '#f39' : '#000'}
+            color={
+              directory === 'DIRECTORY_PICTURES' ? activeButtonColour : '#000'
+            }
             onPress={() => setDirectory('DIRECTORY_PICTURES')}
           />
         </View>
@@ -140,51 +142,33 @@ export default function App() {
       </Text>
 
       <View style={styles.imageWrapper}>
-        {/* Logo 1 - (pink and black text on white) */}
         <TouchableHighlight
-          onPress={handlePress(
-            logoPinkBlackOnWhite,
-            'white-background-pink-black'
-          )}
-          onLongPress={handleLongPress(
-            logoPinkBlackOnWhite,
-            'white-background-pink-black'
-          )}
+          onPress={handlePress(dachshund, 'Dachshund')}
+          onLongPress={handleLongPress(dachshund, 'Dachshund')}
         >
           <Image
             style={styles.image}
-            source={{ uri: `data:image/png;base64,${logoPinkBlackOnWhite}` }}
+            source={{ uri: `data:image/png;base64,${dachshund}` }}
           />
         </TouchableHighlight>
 
-        {/* Logo 2 (pink and white text on dark grey) */}
         <TouchableHighlight
-          onPress={handlePress(
-            logoPinkWhiteOnBlack,
-            'black-background-pink-white'
-          )}
-          onLongPress={handleLongPress(
-            logoPinkWhiteOnBlack,
-            'black-background-pink-white'
-          )}
+          onPress={handlePress(pomeranian, 'Pomeranian')}
+          onLongPress={handleLongPress(pomeranian, 'Pomeranian')}
         >
           <Image
             style={styles.image}
-            source={{ uri: `data:image/png;base64,${logoPinkWhiteOnBlack}` }}
+            source={{ uri: `data:image/png;base64,${pomeranian}` }}
           />
         </TouchableHighlight>
 
-        {/* Logo 3 (white text on pink) */}
         <TouchableHighlight
-          onPress={handlePress(logoWhiteOnPink, 'pink-background-white')}
-          onLongPress={handleLongPress(
-            logoWhiteOnPink,
-            'pink-background-white'
-          )}
+          onPress={handlePress(frenchie, 'French Bulldog')}
+          onLongPress={handleLongPress(frenchie, 'French Bulldog')}
         >
           <Image
             style={styles.image}
-            source={{ uri: `data:image/png;base64,${logoWhiteOnPink}` }}
+            source={{ uri: `data:image/png;base64,${frenchie}` }}
           />
         </TouchableHighlight>
       </View>
@@ -218,7 +202,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 100,
-    height: 100,
+    height: 150,
     margin: 8,
   },
   container: {
@@ -226,7 +210,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#b3b3d4',
+    backgroundColor: '#fc6',
   },
   imageWrapper: {
     marginTop: 10,
