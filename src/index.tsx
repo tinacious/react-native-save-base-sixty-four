@@ -2,7 +2,7 @@ import { NativeModules } from 'react-native';
 
 interface SaveBase64ImageOptions {
   mimeType?: 'image/png' | 'image/jpg';
-  directory?: 'DIRECTORY_PICTURES' | 'DIRECTORY_DOWNLOADS';
+  directory?: 'DIRECTORY_PICTURES' | 'DIRECTORY_DOWNLOADS' | 'DIRECTORY_DCIM';
   quality?: number;
   fileName?: string;
   shareText?: string;

@@ -133,6 +133,7 @@ object Utils {
    */
   private fun getDirectory(directory: String?): String {
     return when (directory) {
+      "DIRECTORY_DCIM" -> Environment.DIRECTORY_DCIM
       "DIRECTORY_PICTURES" -> Environment.DIRECTORY_PICTURES
       "DIRECTORY_DOWNLOADS" -> Environment.DIRECTORY_DOWNLOADS
       else -> Environment.DIRECTORY_PICTURES
