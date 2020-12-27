@@ -36,13 +36,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/tinacious/react-native-save-base64-image",
+  "repository": "https://github.com/tinacious/react-native-save-base-sixty-four",
   "author": "Tina Holly <info@tinaciousdesign.com> (https://github.com/tinacious)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tinacious/react-native-save-base64-image/issues"
+    "url": "https://github.com/tinacious/react-native-save-base-sixty-four/issues"
   },
-  "homepage": "https://github.com/tinacious/react-native-save-base64-image#readme",
+  "homepage": "https://github.com/tinacious/react-native-save-base-sixty-four#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
