@@ -1,6 +1,6 @@
 # react-native-save-base64-image
 
-Allows you to save an image in base64 format to the camera roll.
+Allows you to save an image in base64 format to your Photos or share it via the native share sheet.
 
 - [About this module](#about-this-module)
   - [Android support](#android-support)
@@ -61,7 +61,8 @@ When a user does not accept permissions:
 ## Installation
 
 ```sh
-npm install react-native-save-base64-image
+npm install react-native-save-base64-image --save
+yarn add react-native-save-base64-image
 ```
 
 ### iOS
@@ -148,8 +149,6 @@ SaveBase64Image
   });
 ```
 
-**Note**: Promises are resolved for both methods on iOS but on Android the promise is only resolved for the `save()` method and **not** for the `share()` method.
-
 
 ### `base64ImageString: string`
 
@@ -170,7 +169,7 @@ interface SaveBase64ImageOptions {
 
 - **`mimeType`** `(default: 'image/png')`: Android configuration of mime type for bitmap compression and for the share intent. Currently only supporting `'image/png' | 'image/jpg'`
 - **`quality`** `(default: 100)`: Bitmap compression quality on Android
-- **`fileName`** `(default: <generated-timestamp>`): The filename for Android. This will be visible in the Photos app when saving and as the file name when sharing.
+- **`fileName`** `(default: 'image'`): The filename for Android. This will be visible in the Photos app when saving and as the file name when sharing.
 
 
 ### Managing Permissions
