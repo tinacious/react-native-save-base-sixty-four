@@ -10,7 +10,7 @@ import {
   Alert,
   Platform,
 } from 'react-native';
-import SaveBase64Image from 'react-native-save-base64-image';
+import SaveBase64Image from 'react-native-save-base-sixty-four';
 import { dachshund, pomeranian, frenchie } from './images';
 import { hasStoragePermissions } from './permissions';
 

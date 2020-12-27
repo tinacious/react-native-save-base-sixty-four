@@ -13,7 +13,7 @@
     "android",
     "ios",
     "cpp",
-    "react-native-save-base64-image.podspec",
+    "react-native-save-base-sixty-four.podspec",
     "!lib/typescript/example",
     "!android/build",
     "!ios/build",

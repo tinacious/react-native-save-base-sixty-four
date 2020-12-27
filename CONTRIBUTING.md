@@ -49,7 +49,7 @@ Remember to add tests for your change if possible. Run the unit tests by:
 yarn test
 ```
 
-To edit the Objective-C files, open `example/ios/SaveBase64ImageExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > react-native-save-base64-image`.
+To edit the Objective-C files, open `example/ios/SaveBase64ImageExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > react-native-save-base-sixty-four`.
 
 To edit the Kotlin files, open `example/android` in Android studio and find the source files at `reactnativesavebase64image` under `Android`.
 

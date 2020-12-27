@@ -54,6 +54,9 @@ class SaveBase64Image: NSObject {
         resolver?(true)
     }
     
+    @objc static func requiresMainQueueSetup() -> Bool {
+        return false
+    }
 }
 
 // Decode a clean base64 string into an image

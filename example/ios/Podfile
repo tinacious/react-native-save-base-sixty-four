@@ -8,8 +8,8 @@ target 'SaveBase64ImageExample' do
 
   use_react_native!(:path => config["reactNativePath"])
 
-      pod 'react-native-save-base64-image', :path => '../..'
-  
+      pod 'react-native-save-base-sixty-four', :path => '../..'
+
   # Enables Flipper.
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and

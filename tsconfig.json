@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "react-native-save-base64-image": ["./src/index"]
+      "react-native-save-base-sixty-four": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
