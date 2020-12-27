@@ -35,6 +35,7 @@ export default function App() {
   const handlePress = React.useCallback(
     (image: string, fileName: string) => () => {
       if (!hasPermissions && Platform.OS === 'android') {
+        // < Android Q crashes wihtout permissions granted - optionally only show for < Q
         return showPermissionsRequired();
       }
 
@@ -54,6 +55,7 @@ export default function App() {
   const handleLongPress = React.useCallback(
     (image: string, fileName: string) => () => {
       if (!hasPermissions && Platform.OS === 'android') {
+        // < Android Q crashes wihtout permissions granted - optionally only show for < Q
         return showPermissionsRequired();
       }
 

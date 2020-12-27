@@ -2,24 +2,59 @@
 
 Allows you to save an image in base64 format to the camera roll.
 
-- [About & Similar modules](#about--similar-modules)
+- [About this module](#about-this-module)
+  - [Android support](#android-support)
+  - [iOS support](#ios-support)
 - [Installation](#installation)
   - [iOS](#ios)
   - [Android](#android)
 - [Usage](#usage)
-  - [Base 64 encoded string](#base-64-encoded-string)
-  - [Options](#options)
+  - [`share(base64ImageString: string, options: SaveBase64ImageOptions)`](#sharebase64imagestring-string-options-savebase64imageoptions)
+  - [`save(base64ImageString: string, options: SaveBase64ImageOptions)`](#savebase64imagestring-string-options-savebase64imageoptions)
+  - [`base64ImageString: string`](#base64imagestring-string)
+  - [`options: SaveBase64ImageOptions`](#options-savebase64imageoptions)
 - [Contributing](#contributing)
 - [License](#license)
 
 
-## About & Similar modules
+## About this module
 
-This module was developed specifically for working with base64 encoded images. When providing a base64 string, do not provide the header with the mime type.
+This module was developed specifically for working with base64 encoded images, with an emphasis on Android support.
 
-If you are only looking for share sheet functionality, [react-native-share](https://github.com/react-native-share/react-native-share) works perfectly and is more mature. I would recommend using that.
+If you are **only** looking for share sheet functionality, I would recommend using [react-native-share](https://github.com/react-native-share/react-native-share). It supports base64 strings out of the box with no additional work.
 
-If you are looking for the ability to save to camera roll, specifically with support for the current version of Android, this module will help you. At the time of writing, the existing solutions do not implement scoped storage for target SDK 30, the current version of Android, but this does.
+If you are looking for the ability to save a base64 string to the camera roll, specifically with support for the current version of Android as well as legacy versions of Android, this module will help you with that.
+
+
+### Android support
+
+This module provides support for:
+
+- Scoped storage in Android Q
+- Legacy storage in versions of Android older than Q
+
+Please also note the permission checking in the example app as requesting and verifying permissions differs between Q and older versions of Android.
+
+When a user does not accept permissions, a few things happen:
+
+- On Android Q and above:
+  - The user can share via the share sheet
+  - Saving to device is successful
+- On older versions of Android:
+  - Sharing via the share sheet crashes due to lack of permission
+  - Saving to device crashes due to lack of permission
+
+For the above reasons, it's recommended to check for permissions on Android before performing any operations that require them, specifically on older versions of Android.
+
+
+### iOS support
+
+When a user does not accept permissions:
+
+- When attempting to share via the share sheet:
+  - Sharing is successful (no permissions required for this action)
+- When attempting to save:
+  - The promise will resolve with a value of `false` so you can handle the failure as expected due to the user not granting permission
 
 
 ## Installation
@@ -54,25 +89,73 @@ Add this to your `AndroidManifest.xml`:
 
 Call either the `share` or `save` method with the base64 encoded string and optional options for Android.
 
+### `share(base64ImageString: string, options: SaveBase64ImageOptions)`
+
 ```js
-import SaveBase64Image from "react-native-save-base64-image";
+import SaveBase64Image from 'react-native-save-base64-image';
 
 // Native share sheet
-const success = await SaveBase64Image.share(base64ImageString, options);
+//    with async await
+try {
+  const success = await SaveBase64Image.share(base64ImageString, options);
+  if (!success) {
+    // 😭 user did not grant permission
+  }
+} catch (error) {
+  // 💥 there was a crash
+}
+
+//    with promises
+SaveBase64Image
+  .share(base64ImageString, options)
+  .then((success) => {
+    if (!success) {
+      // 😭 user did not grant permission
+    }
+  })
+  .catch((error) => {
+    // 💥 there was a crash
+  });
+```
+
+### `save(base64ImageString: string, options: SaveBase64ImageOptions)`
+
+```js
+import SaveBase64Image from 'react-native-save-base64-image';
 
 // Save to device
-const success = await SaveBase64Image.save(base64ImageString, options);
+//    with async await
+try {
+  const success = await SaveBase64Image.save(base64ImageString, options);
+  if (!success) {
+    // 😭 user did not grant permission
+  }
+} catch (error) {
+  // 💥 there was a crash
+}
+
+//    with promises
+SaveBase64Image
+  .save(base64ImageString, options)
+  .then((success) => {
+    if (!success) {
+      // 😭 user did not grant permission
+    }
+  })
+  .catch((error) => {
+    // 💥 there was a crash
+  });
 ```
 
 **Note**: Promises are resolved for both methods on iOS but on Android the promise is only resolved for the `save()` method and **not** for the `share()` method.
 
 
-### Base 64 encoded string
+### `base64ImageString: string`
 
 The base64 encoded string should **not** have the header, i.e. `data:image/png;base64,` (or similar) should be removed.
 
 
-### Options
+### `options: SaveBase64ImageOptions`
 
 The options below are used in the Android module:
 
