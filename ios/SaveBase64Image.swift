@@ -11,7 +11,7 @@ class SaveBase64Image: NSObject {
         resolve:  @escaping RCTPromiseResolveBlock,
         reject:  @escaping RCTPromiseRejectBlock
     ) -> Void {
-        guard let image = decodeBase64ToImage(encodedData: cleanUpBase64String(base64ImageString)) else {
+        guard let image = decodeBase64ToImage(base64ImageString) else {
             return resolve(false)
         }
         
@@ -28,7 +28,7 @@ class SaveBase64Image: NSObject {
         resolve: @escaping RCTPromiseResolveBlock,
         reject: @escaping RCTPromiseRejectBlock
     ) -> Void {
-        guard let image = decodeBase64ToImage(encodedData: cleanUpBase64String(base64ImageString)) else {
+        guard let image = decodeBase64ToImage(base64ImageString) else {
             return resolve(false)
         }
         
@@ -59,8 +59,8 @@ class SaveBase64Image: NSObject {
 }
 
 // Decode a clean base64 string into an image
-func decodeBase64ToImage(encodedData: String) -> UIImage? {
-    guard let data = Data.init(base64Encoded: encodedData) else {
+func decodeBase64ToImage(_ encodedData: String) -> UIImage? {
+    guard let data = Data.init(base64Encoded: cleanUpBase64String(encodedData)) else {
         return nil
     }
     return UIImage(data: data)
