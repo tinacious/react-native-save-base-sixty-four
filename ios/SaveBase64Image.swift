@@ -47,12 +47,10 @@ class SaveBase64Image: NSObject {
     @objc(image:didFinishSavingWithError:contextInfo:)
     func image(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: UnsafeRawPointer) {
         guard error == nil else {
-            // Error saving image
             resolver?(false)
             return
         }
 
-        // Image saved successfully
         resolver?(true)
     }
     
