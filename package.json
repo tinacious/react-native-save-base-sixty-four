@@ -1,7 +1,7 @@
 {
-  "name": "react-native-save-base64-image",
+  "name": "react-native-save-base-sixty-four",
   "version": "0.1.0",
-  "description": "Allows you to save an image in base64 format to your Photos or share it via the native share sheet",
+  "description": "Allows you to save a base64-encoded image to your Photos or share it via the native share sheet.",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/src/index.d.ts",

@@ -1,6 +1,6 @@
-# react-native-save-base64-image
+# react-native-save-base-sixty-four
 
-Allows you to save an image in base64 format to your Photos or share it via the native share sheet.
+Allows you to save a base64-encoded image to your Photos or share it via the native share sheet.
 
 - [About this module](#about-this-module)
   - [Android support](#android-support)
@@ -61,8 +61,8 @@ When a user does not accept permissions:
 ## Installation
 
 ```sh
-npm install react-native-save-base64-image --save
-yarn add react-native-save-base64-image
+npm install react-native-save-base-sixty-four --save
+yarn add react-native-save-base-sixty-four
 ```
 
 ### iOS
@@ -93,7 +93,7 @@ Call either the `share` or `save` method with the base64 encoded string and opti
 ### `share(base64ImageString: string, options: SaveBase64ImageOptions)`
 
 ```js
-import SaveBase64Image from 'react-native-save-base64-image';
+import SaveBase64Image from 'react-native-save-base-sixty-four';
 
 // Native share sheet
 //    with async await
@@ -122,7 +122,7 @@ SaveBase64Image
 ### `save(base64ImageString: string, options: SaveBase64ImageOptions)`
 
 ```js
-import SaveBase64Image from 'react-native-save-base64-image';
+import SaveBase64Image from 'react-native-save-base-sixty-four';
 
 // Save to device
 //    with async await
