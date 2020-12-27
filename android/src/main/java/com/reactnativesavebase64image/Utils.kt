@@ -21,7 +21,7 @@ object Utils {
    * Given a base64 string, will return a bitmap
    */
   fun getBitmapForBase64String(base64String: String): Bitmap {
-    val decodedBytes = Base64.decode(base64String, Base64.DEFAULT)
+    val decodedBytes = Base64.decode(cleanUpBase64String(base64String), Base64.DEFAULT)
     return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
   }
 
@@ -129,5 +129,14 @@ object Utils {
       "image/png" -> Bitmap.CompressFormat.PNG
       else -> Bitmap.CompressFormat.PNG
     }
+  }
+
+  /**
+   * Removes the base64 header
+   */
+  private fun cleanUpBase64String(base64String: String): String {
+    return base64String
+      .replace("data:image/png;base64,", "")
+      .replace("data:image/jpg;base64,", "")
   }
 }
