@@ -81,7 +81,6 @@ The `<string>` value above can be anything you like—this will be the message t
 Add this to your `AndroidManifest.xml`:
 
 ```xml
-<uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION"/>
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
     android:maxSdkVersion="28" />
