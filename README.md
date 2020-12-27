@@ -13,6 +13,7 @@ Allows you to save an image in base64 format to the camera roll.
   - [`save(base64ImageString: string, options: SaveBase64ImageOptions)`](#savebase64imagestring-string-options-savebase64imageoptions)
   - [`base64ImageString: string`](#base64imagestring-string)
   - [`options: SaveBase64ImageOptions`](#options-savebase64imageoptions)
+  - [Managing Permissions](#managing-permissions)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -44,7 +45,7 @@ When a user does not accept permissions, a few things happen:
   - Sharing via the share sheet crashes due to lack of permission
   - Saving to device crashes due to lack of permission
 
-For the above reasons, it's recommended to check for permissions on Android before performing any operations that require them, specifically on older versions of Android.
+For the above reasons, it's recommended to check for permissions on Android before performing any operations that require them, specifically on older versions of Android. See the **Managing Permissions** section below for an example.
 
 
 ### iOS support
@@ -170,6 +171,28 @@ interface SaveBase64ImageOptions {
 - **`mimeType`** `(default: 'image/png')`: Android configuration of mime type for bitmap compression and for the share intent. Currently only supporting `'image/png' | 'image/jpg'`
 - **`quality`** `(default: 100)`: Bitmap compression quality on Android
 - **`fileName`** `(default: <generated-timestamp>`): The filename for Android. This will be visible in the Photos app when saving and as the file name when sharing.
+
+
+### Managing Permissions
+
+Here's an example implementation that uses the permissions code in the example app:
+
+```js
+const handleBase64Image = async (base64ImageString, fileName) => {
+  const imageWithoutHeader = base64ImageString.replace('data:image/png;base64,', '');
+
+  if (Platform.OS === 'android') {
+    const hasPermission = await hasStoragePermissions();
+    if (!hasPermission) {
+      Alert.alert('Fail', 'You need to give the app permission');
+      return;
+    }
+  }
+
+  const success = await SaveBase64Image.save(imageWithoutHeader, { fileName });
+  Alert.alert(success ? '😄 Success' : '😞 Fail');
+};
+```
 
 
 ## Contributing
