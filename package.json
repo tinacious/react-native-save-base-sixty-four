@@ -1,5 +1,5 @@
 {
-  "name": "rn-save-base64-image",
+  "name": "react-native-save-base64-image",
   "version": "0.1.0",
   "description": "Allows you to save an image in base64 format to your Photos or share it via the native share sheet",
   "main": "lib/commonjs/index",
