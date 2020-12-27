@@ -138,5 +138,6 @@ object Utils {
     return base64String
       .replace("data:image/png;base64,", "")
       .replace("data:image/jpg;base64,", "")
+      .replace("data:image/jpeg;base64,", "")
   }
 }

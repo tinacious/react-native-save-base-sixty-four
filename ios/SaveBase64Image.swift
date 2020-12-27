@@ -11,7 +11,7 @@ class SaveBase64Image: NSObject {
         resolve:  @escaping RCTPromiseResolveBlock,
         reject:  @escaping RCTPromiseRejectBlock
     ) -> Void {
-        guard let image = decodeBase64ToImage(encodedData: base64ImageString) else {
+        guard let image = decodeBase64ToImage(encodedData: cleanUpBase64String(base64ImageString)) else {
             return resolve(false)
         }
         
@@ -28,7 +28,7 @@ class SaveBase64Image: NSObject {
         resolve: @escaping RCTPromiseResolveBlock,
         reject: @escaping RCTPromiseRejectBlock
     ) -> Void {
-        guard let image = decodeBase64ToImage(encodedData: cleanUpBase64String(base64String: base64ImageString)) else {
+        guard let image = decodeBase64ToImage(encodedData: cleanUpBase64String(base64ImageString)) else {
             return resolve(false)
         }
         
@@ -67,8 +67,9 @@ func decodeBase64ToImage(encodedData: String) -> UIImage? {
 }
 
 // Removes the base64 header
-func cleanUpBase64String(base64String: String) -> String {
+func cleanUpBase64String(_ base64String: String) -> String {
     return base64String
         .replacingOccurrences(of: "data:image/png;base64,", with: "")
         .replacingOccurrences(of: "data:image/jpg;base64,", with: "")
+        .replacingOccurrences(of: "data:image/jpeg;base64,", with: "")
 }
