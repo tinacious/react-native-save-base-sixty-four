@@ -26,6 +26,8 @@ If you are **only** looking for share sheet functionality, I would recommend usi
 
 If you are looking for the ability to save a base64 string to the camera roll, specifically with support for the current version of Android as well as legacy versions of Android, this module will help you with that.
 
+If you want to read more about why I developed this module, you can read the [blog post](https://blog.tinaciousdesign.com/save-to-photos-gallery-android-10-android-q).
+
 
 ### Android support
 
